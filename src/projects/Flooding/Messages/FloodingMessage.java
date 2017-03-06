@@ -74,4 +74,10 @@ public class FloodingMessage extends Message{
     public Message clone() {
         return new FloodingMessage(msg, sender, destination, hops+1,this.getID());
     }
+    
+    @Override
+    public String toString() {
+    	// TODO Auto-generated method stub
+    	return "data: " + msg + ", by.: " + sender.getID() ;
+    }
 }

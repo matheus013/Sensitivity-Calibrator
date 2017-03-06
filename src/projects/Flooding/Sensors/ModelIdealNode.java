@@ -2,10 +2,10 @@ package projects.Flooding.Sensors;
 
 import java.util.LinkedList;
 
-import jsensor.runtime.Jsensor;
 import jsensor.nodes.Node;
 import jsensor.nodes.messages.Inbox;
 import jsensor.nodes.messages.Message;
+import jsensor.runtime.Jsensor;
 import projects.Flooding.Messages.FloodingMessage;
 import projects.Flooding.Timers.FloodingTimer;
 
@@ -16,7 +16,7 @@ import projects.Flooding.Timers.FloodingTimer;
 public class ModelIdealNode extends Node {
 	public LinkedList<Long> messagesIDs;
 
-	private double Sensitivity = 1;
+	public final double sensitivity = 0.05;
 
 	@Override
 	public void handleMessages(Inbox inbox) {
@@ -34,9 +34,8 @@ public class ModelIdealNode extends Node {
 				this.messagesIDs.add(floodingMessage.getID());
 
 				if (floodingMessage.getDestination().equals(this)) {
-					Jsensor.log("time: " + Jsensor.currentTime + "\t sensorID: " + this.ID + "\t receivedFrom: "
-							+ floodingMessage.getSender().getID() + "\t hops: " + floodingMessage.getHops() + "\t msg: "
-							+ floodingMessage.getMsg().concat(this.ID + ""));
+					Jsensor.log("time: " + Jsensor.currentTime + floodingMessage.toString() + "\t hops: "
+							+ floodingMessage.getHops());
 				} else {
 					int n = 999999;
 					int cont = 0;

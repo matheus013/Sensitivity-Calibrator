@@ -2,6 +2,10 @@ package environment.temperature;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Random;
+
+import jsensor.nodes.Node;
+import projects.Flooding.Sensors.ModelIdealNode;
 
 public class Temperature {
 	private int dimension;
@@ -38,6 +42,30 @@ public class Temperature {
 		for (SourceHeat sourceHeat : sourceHeats) {
 			temp += sourceHeat.getModifier(sourceHeat.getLocation().distance(p));
 		}
+		return temp;
+	}
+
+	public double getTemperature(Node node) {
+		Point p = new Point(node.getPosition().getPosX(), node.getPosition().getPosX());
+		double temp = this.temp;
+		for (SourceHeat sourceHeat : sourceHeats) {
+			temp += sourceHeat.getModifier(sourceHeat.getLocation().distance(p));
+		}
+		Random generator = new Random();
+		double sensitivity = 0.5;
+		
+		if (node instanceof ModelIdealNode) {
+			ModelIdealNode ideal = (ModelIdealNode) node;
+			sensitivity = ideal.sensitivity;
+		}
+		
+		boolean signal = generator.nextBoolean();
+		double variation = generator.nextDouble() * sensitivity;
+		
+		if (signal)
+			temp *= 1 + variation;
+		else
+			temp *= 1 - variation;
 		return temp;
 	}
 

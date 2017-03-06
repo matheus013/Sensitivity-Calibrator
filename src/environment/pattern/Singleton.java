@@ -1,13 +1,14 @@
 package environment.pattern;
 
 import environment.temperature.Temperature;
+import jsensor.runtime.Jsensor;
 
 public class Singleton {
 	static Temperature t;
 
-	public static Temperature getInstance() {
+	public synchronized static Temperature getInstance() {
 		if (t == null)
-			t = new Temperature();
+			t = new Temperature(Jsensor.getDimX());
 		return t;
 	}
 }
